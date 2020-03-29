@@ -1,32 +1,32 @@
 <template>
   <el-dialog class="rei_dialog" title="用户名称" :visible.sync="dialogFormVisible">
-    <el-form :model="form">
-      <el-form-item label="昵称" :label-width="formLabelWidth">
-        <el-input v-model="form.name" autocomplete="off"></el-input>
+    <el-form ref="form" :model="form" :rules='rules'>
+      <el-form-item prop='nickname' label="昵称" :label-width="formLabelWidth">
+        <el-input v-model="form.nickname" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="邮箱" :label-width="formLabelWidth">
-        <el-input v-model="form.name" autocomplete="off"></el-input>
+      <el-form-item prop='email' label="邮箱" :label-width="formLabelWidth">
+        <el-input v-model="form.email" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="手机" :label-width="formLabelWidth">
-        <el-input v-model="form.name" autocomplete="off"></el-input>
+      <el-form-item prop='phone' label="手机" :label-width="formLabelWidth">
+        <el-input v-model="form.phone" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="密码" :label-width="formLabelWidth">
-        <el-input v-model="form.name" autocomplete="off"></el-input>
+      <el-form-item prop='password' label="密码" :label-width="formLabelWidth">
+        <el-input v-model="form.password" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="图形码" :label-width="formLabelWidth">
+      <el-form-item prop='code' label="图形码" :label-width="formLabelWidth">
       <el-row>
             <el-col :span="17">
-            <el-input v-model="form.name" autocomplete="off"></el-input>
+            <el-input v-model="form.code" autocomplete="off"></el-input>
             </el-col>
             <el-col class='imgbox' :span="7">
               <img class='codeimg' src='../../../assets/login_captcha.png' alt="">
             </el-col>
         </el-row>
       </el-form-item>
-      <el-form-item label="验证码" :label-width="formLabelWidth">
+      <el-form-item prop='logincode' label="验证码" :label-width="formLabelWidth">
         <el-row>
           <el-col :span="17">
-            <el-input v-model="form.name" autocomplete="off"></el-input>
+            <el-input v-model="form.logincode" autocomplete="off"></el-input>
           </el-col>
           <el-col class='imgbox' :span="7">
             <el-button class='reg_btn'>获取用户验证码</el-button>
@@ -36,7 +36,7 @@
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click="dialogFormVisible = false">取 消</el-button>
-      <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+      <el-button type="primary" @click="onSubmit">确 定</el-button>
     </div>
   </el-dialog>
 </template>
@@ -51,10 +51,53 @@ export default {
       formLabelWidth: "67px",
       //   from 的数据
       form: {
-        name: "",
-        region: ""
+        nickname:'',
+        email:'',
+        phone:'',
+        password:'',
+        code:'',
+        logincode:''
+      },
+      rules:{
+        nickname:[
+          { required: true, message: "昵称不能为空", trigger: "blur" },
+          { min: 5, max: 10, message: "长度在 5 到 10 个字符", trigger: "blur" }
+        ],
+        email:[
+          { required: true, message: "邮箱不能为空", trigger: "blur" },
+        ],
+        phone:[
+          { required: true, message: "手机不能为空", trigger: "blur" },
+          { min: 11, max: 11, message: "长度在是11个字符", trigger: "blur" }
+        ],
+        password: [
+          //   非空
+          { required: true, message: "密码不能为空", trigger: "blur" },
+        ],
+        code:[
+          { required: true, message: "图形码不能为空", trigger: "blur" },
+          { min: 4, max: 4, message: "长度在是4个字符", trigger: "blur" }
+        ],
+        logincode:[
+          { required: true, message: "验证码不能为空", trigger: "blur" },
+          { min: 6, max: 6, message: "长度在是6个字符", trigger: "blur" }
+        ]
       }
     };
+  },
+  methods:{
+    onSubmit() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.$message({
+            message: "验证通过",
+            type: "success"
+          });
+        } else {
+          this.$message.error("验证不通过");
+        }
+      });
+    },
   }
 };
 </script>
