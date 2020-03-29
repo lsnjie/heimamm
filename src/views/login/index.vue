@@ -36,15 +36,18 @@
           <el-button class="loginbtn" type="primary" @click="onSubmit">登录</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button class="loginbtn" type="primary" @click="onSubmit">登录</el-button>
+          <el-button class="loginbtn" type="primary" @click="openregister">注册</el-button>
         </el-form-item>
       </el-form>
     </div>
     <img class="rightimg" src="../../assets/login_banner_ele.png" alt />
+    <register ref="register" />
   </div>
 </template>
 
 <script>
+// 导入组件
+import register from './components/register'
 export default {
   data() {
     return {
@@ -92,7 +95,14 @@ export default {
           this.$message.error("验证不通过");
         }
       });
+    },
+    // 打开注册面板
+    openregister(){
+        this.$refs.register.dialogFormVisible = true
     }
+  },
+  components:{
+      register
   }
 };
 </script>
