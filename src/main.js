@@ -9,6 +9,7 @@ import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
 // 导入全局样式
 import './style/index.css'
+
 // 使用element
 Vue.use(Element)
 Vue.config.productionTip = false
